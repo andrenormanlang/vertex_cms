@@ -42,6 +42,18 @@ li:hover {
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
 }
 
+
+li.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+li.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 h3 {
     font-size: 1.75rem;
     color: #007bff; /* Primary color for links */

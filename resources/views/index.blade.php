@@ -12,14 +12,20 @@
         @if($posts->count())
             <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($posts as $post)
-                    <li class="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl">
-                        <div class="p-6">
+                    <!-- Apply fixed height and flex classes to ensure consistency -->
+                    <li class="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-2xl h-64 flex flex-col justify-between">
+                        <div class="p-6 flex-grow">
                             <h3 class="text-xl font-semibold text-blue-600 mb-4">
                                 <a href="{{ route('posts.show', $post->slug) }}" class="hover:underline">
                                     {{ $post->title }}
                                 </a>
                             </h3>
                             <p class="text-gray-700">{{ Str::limit($post->body, 150) }}</p>
+                        </div>
+                        <div class="p-6 mt-auto">
+                            <a href="{{ route('posts.show', $post->slug) }}" class="text-blue-500 hover:text-blue-700 font-semibold">
+                                Read More
+                            </a>
                         </div>
                     </li>
                 @endforeach
@@ -37,4 +43,3 @@
 
 @vite('resources/js/posts.js')
 @vite('resources/css/post.css')
-
