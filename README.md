@@ -33,7 +33,7 @@ Prerequisites
 
     Clone the Repository:
 
-git clone https://github.com/yourusername/vertex-cms.git
+git clone https://github.com/andrenormanlang/vertex-cms.git
 
 Navigate to the Project Directory:
 
