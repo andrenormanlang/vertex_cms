@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +37,21 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Other admin routes, e.g.:
     // Route::resource('posts', Admin\PostController::class);
 });
+
+// Admin routes (requires authentication)
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+
+    // Define resource routes for posts
+    Route::resource('posts', PostController::class);
+});
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::resource('categories', CategoryController::class); // This defines routes for category management
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Post routes
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
