@@ -20,6 +20,21 @@
         </div>
     </div>
 
+    @if(auth()->check())
+    <form action="{{ route('comments.store') }}" method="POST">
+        @csrf
+        <textarea name="body" rows="3" class="form-control mb-2"></textarea>
+        <button type="submit" class="btn btn-primary">Add Comment</button>
+    </form>
+    @endif
+
+    @foreach($post->comments as $comment)
+        <div class="comment">
+            <strong>{{ $comment->user->name }}</strong>
+            <p>{{ $comment->body }}</p>
+        </div>
+    @endforeach
+
     <!-- Back to Home Button -->
     <div class="text-center">
         <a href="{{ route('home') }}" class="text-blue-500 hover:text-blue-700 font-semibold underline">

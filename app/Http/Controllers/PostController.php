@@ -22,4 +22,19 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)->firstOrFail();
         return view('posts.show', compact('post')); // Ensure the view 'show.blade.php' exists in 'resources/views/posts/'
     }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|unique:posts,slug',
+            'body' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        Post::create($data);
+
+        return redirect()->route('posts.index')->with('success', 'Post created successfully!');
+    }
+
 }
