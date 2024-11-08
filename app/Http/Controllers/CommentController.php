@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,16 +11,19 @@ class CommentController extends Controller
 {
     public function store(Request $request, Post $post)
     {
-        $data = $request->validate([
-            'body' => 'required|string',
+        // Validate the request
+        $request->validate([
+            'body' => 'required|string|max:500',
         ]);
 
+        // Create the comment and associate it with the post and user
         $post->comments()->create([
-            'body' => $data['body'],
-            'user_id' => Auth::id(), // Using the Auth facade for better IDE recognition
+            'user_id' => Auth::id(),
+            'body' => $request->body,
         ]);
 
-        return redirect()->back()->with('success', 'Comment added successfully!');
+        // Redirect back to the post with a success message
+        return redirect()->route('posts.show', $post->slug)->with('success', 'Comment added successfully!');
     }
 }
 

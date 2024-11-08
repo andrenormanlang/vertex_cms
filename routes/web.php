@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,46 +14,42 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Home page route
+// Home Page Route
 Route::get('/', [PostController::class, 'index'])->name('home');
 
-// Authentication routes
-require __DIR__.'/auth.php';
+// Authentication Routes
+require __DIR__ . '/auth.php';
 
-// Dashboard route (requires authentication)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Dashboard Route (Requires Authentication)
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Profile routes (requires authentication)
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Profile Routes
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 });
 
-// Admin routes (requires authentication)
+// Admin Routes (Requires Authentication)
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('index');
-    // Other admin routes, e.g.:
-    // Route::resource('posts', Admin\PostController::class);
-});
-
-// Admin routes (requires authentication)
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // Admin Home/Dashboard
     Route::get('/', [AdminController::class, 'index'])->name('index');
 
-    // Define resource routes for posts
+    // Post Management
     Route::resource('posts', PostController::class);
+
+    // Category Management
+    Route::resource('categories', CategoryController::class);
+
+    // Comment Management (Delete)
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('index');
-    Route::resource('categories', CategoryController::class); // This defines routes for category management
-});
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
-// Post routes
+// Post Routes
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+
+// Comment Routes
+Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])->name('comments.store');
 
