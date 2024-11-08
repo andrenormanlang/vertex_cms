@@ -1,0 +1,77 @@
+/* Reset default browser styles */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5; /* Light grey background */
+    line-height: 1.6;
+    color: #333; /* Slightly darker text for readability */
+}
+
+h2 {
+    color: #444;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto; /* Center the content */
+    padding: 20px;
+}
+
+li {
+    background-color: #ffffff; /* White background for each post item */
+    margin-bottom: 20px; /* Space between each post */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+li:hover {
+    transform: translateY(-10px); /* Lift up slightly on hover */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+}
+
+h3 {
+    font-size: 1.75rem;
+    color: #007bff; /* Primary color for links */
+    margin-bottom: 10px;
+}
+
+h3 a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+h3 a:hover {
+    text-decoration: underline; /* Underline link on hover */
+}
+
+p {
+    color: #555; /* Soft grey color for body text */
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.no-posts {
+    text-align: center;
+    color: #6c757d;
+    font-size: 1.2em;
+    margin-top: 50px;
+}

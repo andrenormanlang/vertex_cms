@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light grey background */
+}
+
+h2 {
+    color: #343a40; /* Dark grey */
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2em;
+}
+
+ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+
+li {
+    background-color: #ffffff; /* White background for each post item */
+    margin: 20px auto; /* Space between each post */
+    padding: 20px;
+    max-width: 600px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+}
+
+li.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+li.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #007bff; /* Bootstrap primary color */
+}
+
+h3 a {
+    text-decoration: none;
+    color: #007bff; /* Consistent link color */
+}
+
+h3 a:hover {
+    text-decoration: underline; /* Underline link on hover */
+}
+
+p {
+    color: #6c757d; /* Light grey for body text */
+    line-height: 1.6;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.no-posts {
+    text-align: center;
+    color: #6c757d;
+    font-size: 1.2em;
+    margin-top: 50px;
+}
