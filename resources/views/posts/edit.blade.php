@@ -21,8 +21,7 @@
     @csrf
     @method('PUT')
     <div class="mb-4">
-        <!-- Changed input to textarea to use TinyMCE -->
-        <textarea name="title" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-md">{{ $post->title }}</textarea>
+<textarea name="title" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-md">{!! $post->title !!}</textarea>
     </div>
     <div class="mb-4">
         <label for="image" class="block text-gray-700">Post Image</label>
@@ -35,6 +34,7 @@
         Update Post
     </button>
 </form>
+
 
         </div>
     </div>

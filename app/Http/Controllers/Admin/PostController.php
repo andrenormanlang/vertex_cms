@@ -97,6 +97,8 @@ class PostController extends Controller
             $data['image'] = $uploadedFileUrl;
         }
 
+        $data['title'] = strip_tags($data['title'], '<h1><h2><h3><strong><em><b><i>'); // Allow only necessary tags
+
         $post->update($data);
 
         return redirect()->route('admin.posts.edit', $post->id)->with('success', 'Post updated successfully!');
