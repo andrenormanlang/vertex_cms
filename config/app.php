@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'active_theme' => env('ACTIVE_THEME', 'default'),
+
 ];

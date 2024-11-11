@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +23,16 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
+
+    public function getIsAdminAttribute()
+    {
+        return $this->role === 'admin';
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -46,7 +56,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    use HasRoles;
-    // Other methods and properties
 }

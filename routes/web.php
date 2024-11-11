@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostController as ControllersPostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Home Page Route
-Route::get('/', [PostController::class, 'index'])->name('home');
+Route::get('/', [ControllersPostController::class, 'index'])->name('home');
 
 // Authentication Routes
 require __DIR__ . '/auth.php';
@@ -32,24 +36,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-// Admin Routes (Requires Authentication)
+// Admin Routes (Requires Authentication & Admin Middleware)
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     // Admin Home/Dashboard
-    Route::get('/', [AdminController::class, 'index'])->name('index');
+    // Route::get('/', [AdminController::class, 'index'])->name('index');
 
     // Post Management
-    Route::resource('posts', PostController::class);
+    Route::resource('posts', AdminPostController::class);
+
+    Route::get('/tags/{name}', [TagController::class, 'show'])->name('tags.show');
 
     // Category Management
     Route::resource('categories', CategoryController::class);
+
+    // Page Management
+    Route::resource('pages', PageController::class);
+
+    // Theme Management
+    Route::get('themes', [ThemeController::class, 'index'])->name('themes.index');
+    Route::post('themes/change', [ThemeController::class, 'changeTheme'])->name('themes.change');
 
     // Comment Management (Delete)
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
 // Post Routes
-Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/posts/{slug}', [ControllersPostController::class, 'show'])->name('posts.show');
 
 // Comment Routes
 Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store'])->name('comments.store');
 
+// Custom Pages Routes
+Route::get('/{slug}', [PageController::class, 'show'])->name('pages.show');

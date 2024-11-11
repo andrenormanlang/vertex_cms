@@ -5,8 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/alpinejs@3" defer></script>
     <title>@yield('title', 'Vertex CMS')</title>
-    <!-- Include CSS files -->
-    @vite(['resources/css/app.css'])
+
+    <!-- Determine Active Theme -->
+    @php
+        // Assume the theme is stored in the database using the Setting model
+        use App\Models\Setting;
+
+        // Fetch the active theme from the database or fallback to default
+        $activeTheme = Setting::where('key', 'active_theme')->value('value') ?? 'default';
+    @endphp
+
+    <!-- Load the CSS File Based on Active Theme -->
+    @if($activeTheme === 'dark')
+        @vite(['resources/css/dark.css'])
+    @elseif($activeTheme === 'light')
+        @vite(['resources/css/light.css'])
+    @else
+        @vite(['resources/css/app.css'])
+    @endif
 </head>
 <body class="font-sans antialiased bg-gray-100 text-gray-900 flex flex-col min-h-screen">
 
@@ -69,6 +85,9 @@
 
     <!-- Include JavaScript files -->
     @vite(['resources/js/app.js'])
+
+    <!-- TinyMCE Script -->
+    @stack('scripts')
 </body>
 </html>
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
-class Post extends Model
+class Page extends Model
 {
     use HasFactory;
 
@@ -16,20 +16,8 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
-
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
-
-    protected $fillable = [
-        'title', 'slug', 'body', 'meta_title', 'meta_description', 'meta_keywords','category_id', 'image'
-    ];
-
 }
-
