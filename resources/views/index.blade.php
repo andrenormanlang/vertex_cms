@@ -8,11 +8,11 @@
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition"
                 value="{{ request('search') }}">
         </form>
-        
+
         @if($posts->count())
             <!-- Posts Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach($posts as $post)
+                    @foreach($posts as $post)
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105">
                         @if($post->image)
                             <div class="h-48 overflow-hidden">

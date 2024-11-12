@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     public function destroy(Comment $comment)
-    {
-        // Delete the comment
-        $comment->delete();
+                {
+                    // Delete the comment
+                    $comment->delete();
 
-        // Redirect back with a success message
-        return redirect()->route('dashboard')->with('success', 'Comment deleted successfully!');
-    }
+                    // Redirect back with a success message
+                    return redirect()->route('dashboard')->with('success', 'Comment deleted successfully!');
+                }
 }

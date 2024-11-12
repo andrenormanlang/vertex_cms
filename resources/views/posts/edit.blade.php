@@ -18,7 +18,7 @@
         <!-- Edit Post Form -->
         <div class="bg-white shadow-md rounded-lg p-6 mb-8">
             <form method="POST" action="{{ route('admin.posts.update', $post->id) }}" enctype="multipart/form-data">
-    @csrf
+        @csrf
     @method('PUT')
     <div class="mb-4">
 <textarea name="title" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-md">{!! $post->title !!}</textarea>

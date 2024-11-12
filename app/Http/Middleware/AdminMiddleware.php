@@ -10,16 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
 {
-    public function handle(Request $request, Closure $next): Response
-    {
-        if ($this->isAdmin()) {
-            return $next($request);
-        }
+        public function handle(Request $request, Closure $next): Response
+        {
+            if ($this->isAdmin()) {
+                return $next($request);
+            }
 
-        Log::warning('Unauthorized access attempt', [
-            'user_id' => Auth::id(),
-            'route' => $request->path(),
-            'ip' => $request->ip(),
+            Log::warning('Unauthorized access attempt', [
+                'user_id' => Auth::id(),
+                'route' => $request->path(),
+                'ip' => $request->ip(),
         ]);
 
         if ($request->expectsJson()) {
