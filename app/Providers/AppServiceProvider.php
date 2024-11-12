@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use RateLimiter;
 use Request;
@@ -11,28 +10,20 @@ use Request;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap any application services.
-     *
-     * @return void
+     * Register any application services.
      */
-    public function boot(UrlGenerator $url)
+    public function register(): void
     {
-        // Force HTTPS if the environment is production
-        if (env('APP_ENV') === 'production') {
-            $url->forceScheme('https');
-        }
+        //
     }
 
     /**
-     * Register any application services.
-     *
-     * @return void
+     * Bootstrap any application services.
      */
-    public function register()
+    public function boot(): void
     {
-        // You can register other bindings, if needed
+        //
     }
-
 
     protected function configureRateLimiting()
     {
