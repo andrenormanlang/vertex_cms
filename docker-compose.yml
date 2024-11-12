@@ -11,12 +11,7 @@ services:
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
-      DB_CONNECTION: pgsql
-      DB_HOST: ep-aged-bird-a6no7ukt.us-west-2.aws.neon.tech
-      DB_PORT: 5432
-      DB_DATABASE: vertex
-      DB_USERNAME: neondb_owner
-      DB_PASSWORD: Ganesha77?
+      DB_URL: postgresql://neondb_owner:IN49KBWYHzXM@ep-aged-bird-a6no7ukt.us-west-2.aws.neon.tech/vertex?sslmode=require
     working_dir: /var/www
     volumes:
       - .:/var/www
