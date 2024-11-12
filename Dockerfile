@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
-    libonig-dev \  # Added dependency for mbstring
+    libonig-dev \
     locales \
     zip \
     jpegoptim optipng pngquant gifsicle \
@@ -19,11 +19,10 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     pkg-config \
-    libzip-dev \  # Added for zip extension
+    libzip-dev \
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl bcmath gd
+RUN docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl bcmath gd
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
