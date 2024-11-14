@@ -4,8 +4,10 @@ FROM php:8.3-fpm
 # Set working directory
 WORKDIR /var/www
 
-# Install system dependencies
+# Install system dependencies including Nginx and Supervisor
 RUN apt-get update && apt-get install -y \
+    nginx \
+    supervisor \
     build-essential \
     libpng-dev \
     libjpeg-dev \
@@ -32,18 +34,19 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy the existing application directory contents to the working directory
+# Copy the application source code
 COPY . /var/www
 
-# Copy the existing application directory permissions to the working directory
-COPY --chown=www-data:www-data . /var/www
+# Set permissions for Laravel
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Change current user to www
-USER www-data
+# Copy Nginx and Supervisor configurations into the container
+COPY ./docker-compose/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./docker-compose/supervisord/supervisord.conf /etc/supervisord.conf
 
-# Expose port for PHP-FPM
+# Expose port for Nginx (web server)
 EXPOSE 8080
 
-# Run PHP-FPM to handle incoming PHP requests
-CMD ["php-fpm"]
-
+# Start Supervisor to run both Nginx and PHP-FPM
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
