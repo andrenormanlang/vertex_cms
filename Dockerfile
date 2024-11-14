@@ -46,7 +46,7 @@ RUN chown -R www-data:www-data /var/www \
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy custom Nginx and Supervisor configurations into the container
-COPY ./docker-compose/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./docker-compose/nginx/default.conf /etc/nginx/default.conf
 COPY ./docker-compose/supervisord/supervisord.conf /etc/supervisord.conf
 
 # Expose port 80 for Nginx (web server)
