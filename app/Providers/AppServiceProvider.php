@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use RateLimiter;
 use Request;
@@ -20,9 +21,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
-        //
+        Blade::component('widget', 'dashboard-widget');
     }
 
     protected function configureRateLimiting()

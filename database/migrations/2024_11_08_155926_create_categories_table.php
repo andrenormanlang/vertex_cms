@@ -22,8 +22,15 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
+        // First drop the foreign key from the posts table
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropForeign(['category_id']);  // Drop the foreign key constraint first
+        });
+
+        // Now drop the categories table
         Schema::dropIfExists('categories');
-    }
+}
+
 };

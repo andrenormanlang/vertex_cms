@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
@@ -8,33 +8,39 @@ use App\Models\Tag;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Str;
 
-class PostController extends Controller
+class AdminPostController extends Controller
 {
-    public function index(Request $request)
-    {
-        // Use eager loading to load the 'user' and 'tags' relationships
-        $query = Post::with(['user', 'tags']);
+   // Index method to list posts
+   public function index(Request $request)
+   {
+       // Use eager loading to load related 'user' and 'tags'
+       $query = Post::with(['user', 'tags']);
 
-        if ($request->has('search')) {
-            $search = $request->input('search');
-            $query->where('title', 'LIKE', "%{$search}%")
-                ->orWhere('body', 'LIKE', "%{$search}%");
-        }
+       if ($request->has('search')) {
+           $search = $request->input('search');
+           $query->where('title', 'LIKE', "%{$search}%")
+               ->orWhere('body', 'LIKE', "%{$search}%");
+       }
 
-        $posts = $query->orderBy('created_at', 'desc')->paginate(10);
+       $posts = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('index', compact('posts'));
-    }
+       return view('admin.posts.index', compact('posts')); // Pass the 'posts' variable to the view
+   }
+
+
 
     public function show($slug)
     {
-        // Use eager loading to load the 'user' and 'tags' relationships for the post
         $post = Post::with(['user', 'tags'])->where('slug', $slug)->firstOrFail();
 
-        return view('posts.show', compact('post'));
+        return view('admin.posts.show', compact('post')); // Update the view path
+    }
+
+    public function create()
+    {
+        return view('admin.posts.create'); // Create method to render the create form
     }
 
     public function store(Request $request)
@@ -48,15 +54,8 @@ class PostController extends Controller
             'tags.*' => 'string',
         ]);
 
-        // Generate slug from title
-        $data['slug'] = Str::slug($data['title'], '-');
-
-        // Ensure the slug is unique
-        $originalSlug = $data['slug'];
-        $counter = 1;
-        while (Post::where('slug', $data['slug'])->exists()) {
-            $data['slug'] = $originalSlug . '-' . $counter++;
-        }
+        // Generate unique slug
+        $data['slug'] = $this->generateUniqueSlug($data['title']);
 
         // Handle image upload with Cloudinary
         if ($request->hasFile('image')) {
@@ -84,25 +83,18 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        // Authorization check to ensure the authenticated user is the owner of the post
-        if ($post->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
 
-        // Use eager loading to load related tags
+
         $post->load('tags');
 
-        return view('posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post')); // Update the view path
     }
 
     public function update(Request $request, Post $post)
     {
-        // Authorization check to ensure the authenticated user is the owner of the post
-        if ($post->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
 
-        // Validate the request data
+
+        // Validate request data
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
@@ -132,13 +124,30 @@ class PostController extends Controller
             $post->tags()->sync($tags);
         }
 
-        return redirect()->route('admin.posts.edit', $post->id)->with('success', 'Post updated successfully!');
+        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully!');
     }
 
     public function destroy(Post $post)
     {
+        
+
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully');
     }
+
+    // Helper method to generate a unique slug
+    private function generateUniqueSlug($title)
+    {
+        $slug = Str::slug($title, '-');
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
+        }
+
+        return $slug;
+    }
 }
+

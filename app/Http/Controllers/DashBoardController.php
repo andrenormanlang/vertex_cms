@@ -27,7 +27,7 @@ class DashboardController extends Controller
         // Fetch all categories
         $categories = Category::all();
 
-        return view('dashboard', [
+        return view('admin.dashboard', [
             'postsCount' => $postsCount,
             'categoriesCount' => $categoriesCount,
             'commentsCount' => $commentsCount,
