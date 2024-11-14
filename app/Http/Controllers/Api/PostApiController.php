@@ -41,7 +41,7 @@ class PostApiController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif,tiff,svg|max:2048',
             'tags' => 'nullable|array',
             'tags.*' => 'string',
         ]);
@@ -82,7 +82,7 @@ class PostApiController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'required|string|unique:posts,slug,' . $post->id,
             'body' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif,tiff,svg|max:2048',
             'tags' => 'nullable|array',
             'tags.*' => 'string',
         ]);

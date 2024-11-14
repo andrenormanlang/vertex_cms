@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -24,16 +24,6 @@ class User extends Authenticatable
         'password',
     ];
 
-    protected $casts = [
-        'is_admin' => 'boolean',
-    ];
-
-    public function getIsAdminAttribute()
-    {
-        return $this->role === 'admin';
-    }
-
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -45,15 +35,43 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_admin' => 'boolean',
+    ];
+
+    /**
+     * Get the user's posts.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get the user's comments.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Determine if the user is an admin.
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        return $this->hasRole('admin'); // Assuming you use Spatie Roles and 'admin' is a role name
     }
 }

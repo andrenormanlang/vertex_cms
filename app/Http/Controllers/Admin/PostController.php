@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Str;
 
@@ -37,10 +38,11 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        // Validate request data
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif,tiff,svg|max:2048',
             'tags' => 'nullable|array',
             'tags.*' => 'string',
         ]);
@@ -55,6 +57,7 @@ class PostController extends Controller
             $data['slug'] = $originalSlug . '-' . $counter++;
         }
 
+        // Handle image upload with Cloudinary
         if ($request->hasFile('image')) {
             // Upload the image to Cloudinary
             $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
@@ -62,6 +65,9 @@ class PostController extends Controller
             // Store the image URL instead of storing the file locally
             $data['image'] = $uploadedFileUrl;
         }
+
+        // Associate the post with the currently authenticated user
+        $data['user_id'] = Auth::id(); // Add the missing semicolon
 
         // Create the post
         $post = Post::create($data);
@@ -78,6 +84,7 @@ class PostController extends Controller
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully!');
     }
 
+
     public function edit(Post $post)
     {
         return view('posts.edit', compact('post'));
@@ -88,7 +95,7 @@ class PostController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif,tiff,svg|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
