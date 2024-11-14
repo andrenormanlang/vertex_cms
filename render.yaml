@@ -2,10 +2,10 @@ services:
   - type: web
     name: laravel-app
     env: docker
-    plan: starter # You can change this based on your needs
+    plan: starter # Adjust this as per your requirements
     dockerfilePath: Dockerfile
-    buildCommand: "composer install && php artisan key:generate"
-    startCommand: "/usr/sbin/nginx -g 'daemon off;'"
+    buildCommand: "composer install --optimize-autoloader --no-dev && php artisan key:generate"
+    startCommand: "/usr/bin/supervisord -c /etc/supervisord.conf"
     envVars:
       - key: APP_ENV
         value: production

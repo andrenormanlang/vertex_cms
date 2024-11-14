@@ -6,6 +6,8 @@ WORKDIR /var/www
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    nginx \
+    supervisor \
     build-essential \
     libpng-dev \
     libjpeg-dev \
@@ -38,9 +40,16 @@ COPY . /var/www
 # Copy the existing application directory permissions to the working directory
 COPY --chown=www-data:www-data . /var/www
 
-# Change current user to www
-USER www-data
+# Set permissions for Laravel
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Expose port for PHP-FPM
+# Copy Nginx and Supervisor configurations
+COPY ./docker-compose/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./docker-compose/supervisord/supervisord.conf /etc/supervisord.conf
+
+# Expose port for Nginx (web server)
 EXPOSE 80
-CMD ["php-fpm"]
+
+# Start Supervisor to run both Nginx and PHP-FPM
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
