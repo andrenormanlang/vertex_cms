@@ -68,8 +68,8 @@ services:
   rust-app:
     build:
       context: .
-      dockerfile: Dockerfile-rust # Specify the Dockerfile used for building the Rust application
-    container_name: rust-app
+      dockerfile: Dockerfile # Specify the Dockerfile used for building the Rust application
+    container_name: laravel-app
     restart: unless-stopped
     tty: true
     ports:
