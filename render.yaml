@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: laravel-app
+    env: docker
+    plan: starter # You can change this based on your needs
+    dockerfilePath: Dockerfile
+    buildCommand: "composer install && php artisan key:generate"
+    startCommand: "/usr/sbin/nginx -g 'daemon off;'"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_DATABASE
+        value: "/var/www/database/database.sqlite"
+    healthCheckPath: "/"
