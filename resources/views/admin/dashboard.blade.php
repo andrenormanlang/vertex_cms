@@ -6,7 +6,7 @@
 
          <!-- DashBoard Header -->
          <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-800">DashBoard</h2>
+            <h2 class="text-3xl font-bold text-gray-800">Dashboard</h2>
             <div class="flex space-x-4">
                 <a href="{{ route('admin.posts.index') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition duration-200 shadow">
                     View All Posts

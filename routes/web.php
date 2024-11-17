@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DashBoardController; // Fixed typo (DashBoardController -> DashBoardController)
+use App\Http\Controllers\DashBoardController; 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +25,7 @@ require __DIR__ . '/auth.php';
 
 // DashBoard Route (Requires Authentication)
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/DashBoard', [DashBoardController::class, 'index'])->name('DashBoard'); // Fixed typo in DashBoardController
+    Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard'); 
 
     // Profile Routes
     Route::prefix('profile')->group(function () {

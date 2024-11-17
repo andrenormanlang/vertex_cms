@@ -16,7 +16,7 @@ Welcome to Vertex CMS — a Laravel-based content management system designed for
     Handles requests and responses, including PostController, AdminController, etc.
 
     Views (resources/views/)
-    Blade templates for rendering front-end pages. Find files like index.blade.php, DashBoard.blade.php, and more.
+    Blade templates for rendering front-end pages. Find files like index.blade.php, dashboard.blade.php, and more.
 
     Routes (routes/web.php)
     Defines the application's endpoints and links them with appropriate controllers.
@@ -90,7 +90,7 @@ Serve the Application:
 
 🛡️ Authentication
 
-    Users can register and log in to access the DashBoard (/DashBoard) and other protected areas.
+    Users can register and log in to access the dashboard (/dashboard) and other protected areas.
 
 🚨 Troubleshooting
 🛑 Common Issues

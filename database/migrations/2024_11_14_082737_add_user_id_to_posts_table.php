@@ -13,7 +13,7 @@ class AddUserIdToPostsTable extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('posts', function (Blueprint $table): void {
             // Add the user_id column and make it unsigned (so it can reference an ID in the users table)
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
 

@@ -38,9 +38,10 @@
                     <tr class="hover:bg-gray-50 transition-colors duration-200">
                         <!-- Title Column -->
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-lg font-semibold text-gray-900">{{ strip_tags($post->title) }}</div>
+                            <div class="text-lg font-semibold text-gray-900">{!! strip_tags($post->title) !!}</div>
                             <div class="text-sm text-gray-500">ID: {{ $post->id }}</div>
                         </td>
+                        
 
                         <!-- Author Column -->
                         <td class="px-6 py-4 whitespace-nowrap">

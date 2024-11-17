@@ -14,6 +14,6 @@ class CommentController extends Controller
                     $comment->delete();
 
                     // Redirect back with a success message
-                    return redirect()->route('DashBoard')->with('success', 'Comment deleted successfully!');
+                    return redirect()->route('dashboard')->with('success', 'Comment deleted successfully!');
                 }
 }
