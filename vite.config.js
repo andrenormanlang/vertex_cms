@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/post.css',
                 'resources/js/app.js',
                 'resources/js/post.js',
+                'resources/js/tinymce.js',
             ],
             refresh: true,
         }),
