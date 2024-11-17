@@ -52,5 +52,5 @@
     </div>
 @endsection
 
-@vite('resources/js/posts.js')
+@vite('resources/js/post.js')
 @vite('resources/css/post.css')
