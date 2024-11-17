@@ -25,7 +25,7 @@ class DashBoardController extends Controller
         $recentPosts = Post::latest()->take(5)->get();
         $recentComments = Comment::latest()->take(5)->get();
 
-        return view('admin.DashBoard', [
+        return view('admin.dashboard', [
             'postsCount' => $postsCount,
             'categoriesCount' => $categoriesCount,
             'commentsCount' => $commentsCount,
