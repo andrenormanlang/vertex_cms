@@ -71,11 +71,12 @@
                 @else
                     <p class="text-gray-600">No posts available.</p>
                 @endif
+
             </div>
 
         </div>
 
-       
+
     </div>
 </div>
 

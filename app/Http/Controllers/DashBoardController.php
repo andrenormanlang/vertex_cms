@@ -8,7 +8,7 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Models\User;
 
-class DashBoardController extends Controller
+class DashboardController extends Controller
 {
     public function index()
     {
