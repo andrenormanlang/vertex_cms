@@ -46,7 +46,7 @@
 
                 @auth
                     <!-- Authenticated User Links -->
-                    <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-purple-600">Dashboard</a>
+                    <a href="{{ route('DashBoard') }}" class="text-gray-600 hover:text-purple-600">Dashboard</a>
 
                     <!-- Profile Dropdown or Logout -->
                     <div x-data="{ open: false }" class="relative">

@@ -21,13 +21,13 @@ class AuthenticatedSessionController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        // Redirect admin users to the admin dashboard
+        // Redirect admin users to the admin DashBoard
         if ($user->hasRole('admin')) {
             return redirect()->route('admin.index');
         }
 
-        // Redirect other users to the default dashboard
-        return redirect()->route('dashboard');
+        // Redirect other users to the default DashBoard
+        return redirect()->route('DashBoard');
     }
 
     /**
@@ -59,8 +59,8 @@ class AuthenticatedSessionController extends Controller
         if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect based on user role, or default dashboard
-            return redirect()->intended(route('dashboard'));
+            // Redirect based on user role, or default DashBoard
+            return redirect()->intended(route('DashBoard'));
         }
 
         // If authentication fails, throw an error

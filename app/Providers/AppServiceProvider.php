@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::component('widget', 'dashboard-widget');
+        Blade::component('widget', 'DashBoard-widget');
     }
 
     protected function configureRateLimiting()

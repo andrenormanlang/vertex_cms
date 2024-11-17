@@ -8,7 +8,7 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Models\User;
 
-class DashboardController extends Controller
+class DashBoardController extends Controller
 {
     public function index()
     {
@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $recentPosts = Post::latest()->take(5)->get();
         $recentComments = Comment::latest()->take(5)->get();
 
-        return view('admin.dashboard', [
+        return view('admin.DashBoard', [
             'postsCount' => $postsCount,
             'categoriesCount' => $categoriesCount,
             'commentsCount' => $commentsCount,
