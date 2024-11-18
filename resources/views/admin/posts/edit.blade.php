@@ -23,21 +23,40 @@
                 @csrf
                 @method('PUT')
 
+                <!-- Title Field -->
                 <div class="mb-4">
                     <label for="title" class="block text-gray-700">Post Title</label>
-                    <textarea name="title" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-md auto-resize" placeholder="Enter Post Title">{!! $post->title !!}</textarea>
+                    <textarea name="title" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-md auto-resize @error('title') border-red-500 @enderror" placeholder="Enter Post Title">{!! old('title', $post->title) !!}</textarea>
+
+                    <!-- Validation error message for title -->
+                    @error('title')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Image Field -->
                 <div class="mb-4">
                     <label for="image" class="block text-gray-700">Post Image</label>
-                    <input type="file" name="image" id="image" class="w-full border rounded-md px-4 py-2 mt-2">
+                    <input type="file" name="image" id="image" class="w-full border rounded-md px-4 py-2 mt-2 @error('image') border-red-500 @enderror">
+
+                    <!-- Validation error message for image -->
+                    @error('image')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Body Field -->
                 <div class="mb-4">
                     <label for="body" class="block text-gray-700">Post Content</label>
-                    <textarea name="body" id="body" class="w-full px-4 py-2 border rounded-md auto-resize" placeholder="Enter Post Content">{{ $post->body }}</textarea>
+                    <textarea name="body" id="body" class="w-full px-4 py-2 border border-gray-300 rounded-md auto-resize @error('body') border-red-500 @enderror" placeholder="Enter Post Content">{{ old('body', $post->body) }}</textarea>
+
+                    <!-- Validation error message for body -->
+                    @error('body')
+                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Update Button -->
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">
                     Update Post
                 </button>
