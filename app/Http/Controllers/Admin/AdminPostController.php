@@ -47,7 +47,7 @@ class AdminPostController extends Controller
     {
         // Validate request data
         $data = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:1000',
             'body' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif,tiff,svg|max:2048',
             'tags' => 'nullable|array',
@@ -96,7 +96,7 @@ class AdminPostController extends Controller
 
         // Validate request data
         $data = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:1000',
             'body' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,avif,tiff,svg|max:2048',
             'tags' => 'nullable|array',
@@ -129,7 +129,7 @@ class AdminPostController extends Controller
 
     public function destroy(Post $post)
     {
-        
+
 
         $post->delete();
 
