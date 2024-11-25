@@ -7,16 +7,16 @@
         <div class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow-lg rounded-lg overflow-hidden p-6 mb-8">
             <!-- Post Title -->
             <h1 class="text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
-                <span >
+                <span>
                     {!! $post->title !!}
                 </span>
             </h1>
 
             <!-- Post Metadata -->
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                Published on <strong>{{ $post->created_at->format('F j, Y') }}</strong>
+            <p class="text-sm text-gray-700 dark:text-gray-300 mb-6">
+                Published on <strong class="text-gray-900 dark:text-gray-100">{{ $post->created_at->format('F j, Y') }}</strong>
                 @if ($post->user)
-                    by <strong class="text-blue-600">{{ $post->user->name }}</strong>
+                    by <strong class="text-blue-600 dark:text-blue-400">{{ $post->user->name }}</strong>
                 @endif
             </p>
 
@@ -31,30 +31,37 @@
             @endif
 
             <!-- Post Content -->
-            <div class="prose prose-lg mx-auto mb-8 leading-relaxed">
+            <div class="prose prose-lg mx-auto mb-8 leading-relaxed dark:prose-invert">
                 {!! $post->body !!}
             </div>
         </div>
 
         <!-- Comments Section -->
         <div class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 shadow-md rounded-lg p-6 mb-8">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6">Comments</h2>
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">Comments</h2>
 
+            <!-- Comment Form -->
             @if(auth()->check())
-                <!-- Comment Form -->
-                <form action="{{ route('comments.store', $post->slug) }}" method="POST" class="mb-8">
-                    @csrf
-                    <div class="mb-4">
-                        <textarea name="body" rows="4" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none" placeholder="Add your comment here..."></textarea>
-                    </div>
-                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
-                        Add Comment
-                    </button>
-                </form>
+            <form action="{{ route('comments.store', $post->slug) }}" method="POST" class="mb-8">
+                @csrf
+                <div class="mb-4">
+                    <textarea name="body" rows="4"
+                        class="w-full border border-gray-300 dark:border-gray-600
+                               bg-white dark:bg-gray-800
+                               text-gray-800 dark:text-gray-100
+                               placeholder-gray-400 dark:placeholder-gray-500
+                               rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                        placeholder="Add your comment here..."></textarea>
+                </div>
+
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
+                    Add Comment
+                </button>
+            </form>
             @else
-                <p class="text-gray-600 mb-6">
-                    <a href="{{ route('login') }}" class="text-blue-500 hover:text-blue-700 font-semibold underline">Log in</a> to leave a comment.
-                </p>
+            <p class="text-gray-400 mb-6">
+                <a href="{{ route('login') }}" class="text-blue-400 hover:text-blue-500 font-semibold underline">Log in</a> to leave a comment.
+            </p>
             @endif
 
             <!-- Display Comments -->
@@ -69,7 +76,7 @@
                     </div>
                 @endforeach
             @else
-                <p class="text-gray-600">No comments yet. Be the first to comment!</p>
+                <p class="text-gray-900 dark:text-white mb-6 leading-tight">No comments yet. Be the first to comment!</p>
             @endif
         </div>
 

@@ -1,72 +1,155 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-8">Edit Post</h2>
-
-        <!-- Error Messages Section -->
-        @if ($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Edit Post Header -->
+            <div class="flex justify-between items-center mb-8">
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center px-4 py-2 bg-gray-700 dark:bg-gray-800 hover:bg-gray-800 dark:hover:bg-gray-700 text-white rounded-lg transition-colors duration-200">
+                    Back to Dashboard
+                </a>
             </div>
-        @endif
 
-        <!-- Edit Post Form -->
-        <div class="bg-white shadow-md rounded-lg p-6 mb-8">
-            <!-- Centered Title Similar to Quick Post -->
-            <h3 class="text-2xl font-bold text-center mb-4">Edit Post</h3>
-            <form method="POST" action="{{ route('admin.posts.update', $post->id) }}" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-
-                <!-- Title Field -->
-                <div class="mb-4">
-                    <label for="title" class="block text-gray-700">Post Title</label>
-                    <textarea name="title" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-md auto-resize @error('title') border-red-500 @enderror" placeholder="Enter Post Title">{!! old('title', $post->title) !!}</textarea>
-
-                    <!-- Validation error message for title -->
-                    @error('title')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                    @enderror
+            <!-- Error Messages Section -->
+            @if ($errors->any())
+                <div class="bg-red-100 dark:bg-red-800 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
+            @endif
 
-                <!-- Image Field -->
-                <div class="mb-4">
-                    <label for="image" class="block text-gray-700">Post Image</label>
-                    <input type="file" name="image" id="image" class="w-full border rounded-md px-4 py-2 mt-2 @error('image') border-red-500 @enderror">
+            <!-- Edit Post Form -->
+            <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-8">
+                <!-- Centered Title -->
+                <h3 class="text-2xl font-bold text-center text-gray-900 dark:text-gray-100 mb-6">Edit Post</h3>
+                <form method="POST" action="{{ route('admin.posts.update', $post->id) }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-                    <!-- Validation error message for image -->
-                    @error('image')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                    @enderror
-                </div>
+                    <!-- Title Field -->
+                    <div class="mb-6">
+                        <label for="title" class="block text-gray-800 dark:text-gray-200 font-semibold mb-2">Post Title</label>
+                        <textarea name="title" id="title" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-200 shadow-sm @error('title') border-red-500 dark:border-red-500 @enderror" placeholder="Enter Post Title" required>{{ old('title', $post->title) }}</textarea>
 
-                <!-- Body Field -->
-                <div class="mb-4">
-                    <label for="body" class="block text-gray-700">Post Content</label>
-                    <textarea name="body" id="body" class="w-full px-4 py-2 border border-gray-300 rounded-md auto-resize @error('body') border-red-500 @enderror" placeholder="Enter Post Content">{{ old('body', $post->body) }}</textarea>
+                        @error('title')
+                            <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-                    <!-- Validation error message for body -->
-                    @error('body')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                    @enderror
-                </div>
+                    <!-- Image Field -->
+                    <div class="mb-6">
+                        <label for="image" class="block text-gray-800 dark:text-gray-200 font-semibold mb-2">Post Image</label>
+                        <input type="file" name="image" id="image" class="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 mt-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-200 @error('image') border-red-500 dark:border-red-500 @enderror">
 
-                <!-- Update Button -->
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-                    Update Post
-                </button>
-            </form>
+                        @error('image')
+                            <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Body Field -->
+                    <div class="mb-6">
+                        <label for="body" class="block text-gray-800 dark:text-gray-200 font-semibold mb-2">Post Content</label>
+                        <textarea name="body" id="body" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow duration-200 shadow-sm @error('body') border-red-500 dark:border-red-500 @enderror" placeholder="Enter Post Content" required>{{ old('body', $post->body) }}</textarea>
+
+                        @error('body')
+                            <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end space-x-4">
+                        <a href="{{ route('admin.posts.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                            Cancel
+                        </a>
+                        <button type="submit" class="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Update Post
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-@endsection
 
-<!-- TinyMCE Script -->
-@push('scripts')
+    <!-- TinyMCE Script -->
     <script src="https://cdn.tiny.cloud/1/3ptuccpjxd9qd48kti566c6geohm1x5u2jhrl4szbz9l14ee/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    @vite('resources/js/tinymce.js')
-@endpush
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function initializeTinyMCE(selector, isDarkMode) {
+                tinymce.init({
+                    selector: selector,
+                    plugins: 'link image lists preview code textcolor colorpicker imagetools fontsize',
+                    toolbar: 'undo redo | fontfamily fontsize | bold italic underline forecolor backcolor | link image | align lineheight checklist bullist numlist | indent outdent | removeformat typography | preview code',
+                    menubar: false,
+                    branding: false,
+                    height: selector === '#title' ? 150 : 400,
+                    forced_root_block: '',
+                    image_caption: true,
+                    image_title: true,
+                    automatic_uploads: true,
+                      // Backend route for handling image uploads
+                    file_picker_types: 'image',
+                    file_picker_callback: function (callback, value, meta) {
+                        if (meta.filetype === 'image') {
+                            var input = document.createElement('input');
+                            input.setAttribute('type', 'file');
+                            input.setAttribute('accept', 'image/*');
+
+                            input.onchange = function () {
+                                var file = this.files[0];
+                                var reader = new FileReader();
+                                reader.onload = function () {
+                                    callback(reader.result, {alt: file.name});
+                                };
+                                reader.readAsDataURL(file);
+                            };
+
+                            input.click();
+                        }
+                    },
+                    skin: isDarkMode ? 'oxide-dark' : 'oxide',
+                    content_css: isDarkMode ? 'dark' : 'default',
+                    setup: function (editor) {
+                        editor.on('init', function () {
+                            if (isDarkMode) {
+                                editor.getBody().style.backgroundColor = '#2d3748';
+                                editor.getBody().style.color = '#e2e8f0';
+                            } else {
+                                editor.getBody().style.backgroundColor = '#ffffff';
+                                editor.getBody().style.color = '#1a202c';
+                            }
+                        });
+
+                        if (selector === '#body') {
+                            editor.on('change', function () {
+                                tinymce.triggerSave();
+                            });
+                        }
+                    }
+                });
+            }
+
+            function isDarkModeEnabled() {
+                return document.documentElement.classList.contains('dark');
+            }
+
+            initializeTinyMCE('#title', isDarkModeEnabled());
+            initializeTinyMCE('#body', isDarkModeEnabled());
+
+            // Listen for theme changes and reinitialize TinyMCE accordingly
+            const observer = new MutationObserver(() => {
+                const darkMode = isDarkModeEnabled();
+
+                tinymce.remove('#title');
+                tinymce.remove('#body');
+
+                initializeTinyMCE('#title', darkMode);
+                initializeTinyMCE('#body', darkMode);
+            });
+
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        });
+    </script>
+@endsection
