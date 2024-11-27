@@ -36,7 +36,7 @@
                 <!-- Logo -->
                 <div class="flex items-center space-x-3 group">
                     <!-- Logo Box -->
-                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
                         <span class="text-xl font-bold text-white">V</span>
                     </div>
 

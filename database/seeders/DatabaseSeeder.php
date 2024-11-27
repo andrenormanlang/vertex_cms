@@ -16,22 +16,25 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
 
+        // $this->call([
+        //     PostSeeder::class,
+        // ]);
+
+        // $adminRole = Role::create(['name' => 'Admin']);
+        // $editorRole = Role::create(['name' => 'Editor']);
+
+        // $user = User::factory()->create([
+        //     'email' => 'admin@example.com',
+        // ]);
+
+        // $user->assignRole($adminRole);
         $this->call([
-            PostSeeder::class,
+            TagSeeder::class,
         ]);
-
-        $adminRole = Role::create(['name' => 'Admin']);
-        $editorRole = Role::create(['name' => 'Editor']);
-
-        $user = User::factory()->create([
-            'email' => 'admin@example.com',
-        ]);
-
-        $user->assignRole($adminRole);
     }
-}
+    }

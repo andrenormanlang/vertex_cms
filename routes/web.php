@@ -20,11 +20,16 @@ use Illuminate\Support\Facades\Route;
 // Home Page Route
 Route::get('/', [PostController::class, 'index'])->name('home');
 
+// Public Tag Route
+Route::get('tags/name/{name}', [TagController::class, 'showByName'])->name('tags.showByName');
+Route::get('tags/slug/{slug}', [TagController::class, 'showBySlug'])->name('tags.showBySlug');
+
+
+
+
 // Authentication Routes
 require __DIR__ . '/auth.php';
 
-// Public Tag Route (Move outside admin group)
-Route::get('/tags/{name}', [TagController::class, 'show'])->name('tags.show');
 
 // Public Post Routes
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');

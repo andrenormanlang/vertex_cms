@@ -12,25 +12,24 @@ use Str;
 
 class AdminPostController extends Controller
 {
-   // Index method to list posts
-   public function index(Request $request)
-   {
-       // Use eager loading to load related 'user' and 'tags'
-       $query = Post::with(['user', 'tags']);
+    // Index method to list posts
+    public function index(Request $request)
+    {
+        // Use eager loading to load related 'user' and 'tags'
+        $query = Post::with(['user', 'tags']);
 
-       if ($request->has('search')) {
-           $search = $request->input('search');
-           $query->where('title', 'LIKE', "%{$search}%")
-               ->orWhere('body', 'LIKE', "%{$search}%");
-       }
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('title', 'LIKE', "%{$search}%")
+                ->orWhere('body', 'LIKE', "%{$search}%");
+        }
 
-       $posts = $query->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->orderBy('created_at', 'desc')->paginate(10);
 
-       return view('admin.posts.index', compact('posts')); // Pass the 'posts' variable to the view
-   }
+        return view('admin.posts.index', compact('posts')); // Pass the 'posts' variable to the view
+    }
 
-
-
+    // Show method to display a single post
     public function show($slug)
     {
         $post = Post::with(['user', 'tags'])->where('slug', $slug)->firstOrFail();
@@ -38,11 +37,14 @@ class AdminPostController extends Controller
         return view('admin.posts.show', compact('post')); // Update the view path
     }
 
+    // Create method to show the form for creating a new post
     public function create()
     {
-        return view('admin.posts.create'); // Create method to render the create form
+        $tags = Tag::all(); // Fetch all existing tags
+        return view('admin.posts.create', compact('tags'));
     }
 
+    // Store method to save a new post
     public function store(Request $request)
     {
         // Validate request data
@@ -72,7 +74,11 @@ class AdminPostController extends Controller
         // Sync the tags with the post
         if (!empty($data['tags'])) {
             $tags = collect($data['tags'])->map(function ($tagName) {
-                return Tag::firstOrCreate(['name' => $tagName])->id;
+                // Fetch the tag if it exists or create a new one if it doesn't
+                return Tag::firstOrCreate(
+                    ['name' => $tagName], // Match based on name to ensure uniqueness
+                    ['slug' => Str::slug($tagName)]
+                )->id;
             });
 
             $post->tags()->sync($tags);
@@ -81,19 +87,17 @@ class AdminPostController extends Controller
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully!');
     }
 
+    // Edit method to show the form for editing an existing post
     public function edit(Post $post)
     {
-
-
         $post->load('tags');
-
-        return view('admin.posts.edit', compact('post')); // Update the view path
+        $tags = Tag::all(); // Fetch all existing tags
+        return view('admin.posts.edit', compact('post', 'tags'));
     }
 
+    // Update method to update an existing post
     public function update(Request $request, Post $post)
     {
-
-
         // Validate request data
         $data = $request->validate([
             'title' => 'required|string|max:1000',
@@ -102,6 +106,11 @@ class AdminPostController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'string',
         ]);
+
+        // Update slug if title is changed
+        if ($data['title'] !== $post->title) {
+            $data['slug'] = $this->generateUniqueSlug($data['title']);
+        }
 
         // Handle the image update if a new image is provided
         if ($request->hasFile('image')) {
@@ -115,39 +124,46 @@ class AdminPostController extends Controller
         // Update the post with the validated data
         $post->update($data);
 
-        // Sync the tags with the post if tags are provided
+        // Sync the tags with the post
         if (!empty($data['tags'])) {
             $tags = collect($data['tags'])->map(function ($tagName) {
-                return Tag::firstOrCreate(['name' => $tagName])->id;
+                // Fetch the tag if it exists or create a new one if it doesn't
+                return Tag::firstOrCreate(
+                    ['name' => $tagName], // Match based on name to ensure uniqueness
+                    ['slug' => Str::slug($tagName)]
+                )->id;
             });
 
             $post->tags()->sync($tags);
+        } else {
+            // Detach all tags if none are provided
+            $post->tags()->detach();
         }
 
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully!');
     }
 
+    // Destroy method to delete a post
     public function destroy(Post $post)
     {
-
-
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully');
     }
 
     // Helper method to generate a unique slug
-    private function generateUniqueSlug($title)
+    public function generateUniqueSlug($title)
     {
-        $slug = Str::slug($title, '-');
+        $slug = Str::slug($title);
         $originalSlug = $slug;
-        $counter = 1;
 
+        // Check if the slug already exists in the posts table
+        $count = 1;
         while (Post::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $counter++;
+            $slug = "{$originalSlug}-{$count}";
+            $count++;
         }
 
         return $slug;
     }
 }
-

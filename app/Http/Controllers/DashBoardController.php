@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\User;
+use App\Models\Tag; // Make sure you import the Tag model
 
 class DashBoardController extends Controller
 {
@@ -25,6 +26,9 @@ class DashBoardController extends Controller
         $recentPosts = Post::latest()->take(5)->get();
         $recentComments = Comment::latest()->take(5)->get();
 
+        // Fetching all tags
+        $tags = Tag::all(); // Fetch all tags
+
         return view('admin.dashboard', [
             'postsCount' => $postsCount,
             'categoriesCount' => $categoriesCount,
@@ -33,6 +37,7 @@ class DashBoardController extends Controller
             'latestPost' => $latestPost, // Pass the latest post to the view
             'recentPosts' => $recentPosts,
             'recentComments' => $recentComments,
+            'tags' => $tags, // Pass the tags to the view
         ]);
     }
 }

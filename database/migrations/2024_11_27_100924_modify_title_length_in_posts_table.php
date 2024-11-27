@@ -12,16 +12,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->string('image')->nullable();
+            $table->string('title', 1000)->change(); // Increase from 255 to 500 or higher if needed
         });
     }
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+
+    public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
+            $table->string('title', 255)->change(); // Revert back if needed
         });
     }
 };
