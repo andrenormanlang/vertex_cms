@@ -20,7 +20,7 @@
 
 
             <!-- Post Title -->
-            <h1 class="text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
+            <h1 class="font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
                 <span>{!! $post->title !!}</span>
             </h1>
 

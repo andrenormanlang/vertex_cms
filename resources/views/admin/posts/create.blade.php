@@ -98,8 +98,8 @@
             function initializeTinyMCE(selector, isDarkMode) {
                 tinymce.init({
                     selector: selector,
-                    plugins: 'link image lists preview code textcolor colorpicker imagetools fontsize paste',
-                    toolbar: 'undo redo | fontfamily fontsize | bold italic underline forecolor backcolor | link image | align lineheight checklist bullist numlist | indent outdent | removeformat typography | preview code',
+                    plugins: 'image lists preview code textcolor colorpicker imagetools fontsize paste',
+                    toolbar: 'undo redo | fontfamily fontsize | bold italic underline forecolor backcolor | link | link image | align lineheight checklist bullist numlist | indent outdent | removeformat typography | preview code',
                     menubar: false,
                     branding: false,
                     height: selector === '#title' ? 150 : 400,
