@@ -98,7 +98,7 @@
             function initializeTinyMCE(selector, isDarkMode) {
                 tinymce.init({
                     selector: selector,
-                    plugins: 'link image lists preview code textcolor colorpicker imagetools fontsize',
+                    plugins: 'link image lists preview code textcolor colorpicker imagetools fontsize paste',
                     toolbar: 'undo redo | fontfamily fontsize | bold italic underline forecolor backcolor | link image | align lineheight checklist bullist numlist | indent outdent | removeformat typography | preview code',
                     menubar: false,
                     branding: false,
@@ -108,6 +108,9 @@
                     image_title: true,
                     automatic_uploads: true,
                     file_picker_types: 'image',
+                    paste_as_text: false, // Allow rich text
+                    paste_data_images: true, // Allow image pasting
+                    paste_retain_style_properties: "all", // Retain all styles
                     file_picker_callback: function(callback, value, meta) {
                         if (meta.filetype === 'image') {
                             var input = document.createElement('input');
