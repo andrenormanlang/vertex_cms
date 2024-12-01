@@ -1,0 +1,24 @@
+body {
+    background-color: #1a202c; /* Darker background for dark mode */
+    color: #f7fafc; /* Lighter text color for readability */
+}
+
+.bg-white {
+    background-color: #2d3748 !important; /* Replace lighter backgrounds */
+}
+
+.text-gray-700, .text-gray-600, .text-gray-500 {
+    color: #a0aec0 !important; /* Adjust text colors for better contrast */
+}
+
+.bg-gray-100 {
+    background-color: #4a5568 !important; /* Adjust light gray background */
+}
+
+.text-gray-900 {
+    color: #e2e8f0 !important; /* Lighter text on a dark background */
+}
+
+.shadow-lg, .shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.7); /* Darker shadow */
+}
